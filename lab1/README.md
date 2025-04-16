@@ -11,7 +11,7 @@ Get into the workspace folder for this part of the lab
 
 ```shell
 # change into Part 1 directory
-cd /workspaces/autocon3-ws-a3/part1
+cd /workspaces/autocon3-ws-a3/lab1
 ```
 
 Build iperf docker images
