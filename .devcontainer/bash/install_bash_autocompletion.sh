@@ -15,5 +15,9 @@ gh completion -s bash > "/usr/share/bash-completion/completions/gh"
 kubectl completion bash > "/usr/share/bash-completion/completions/kubectl"
 # kind completions
 kind completion bash > "/usr/share/bash-completion/completions/kind"
-# docker completions
-docker completion bash > "/usr/share/bash-completion/completions/docker"
+# docker completions (only if docker is available)
+if command -v docker >/dev/null 2>&1; then
+    docker completion bash > "/usr/share/bash-completion/completions/docker"
+else
+    echo "Docker not found, skipping Docker bash completion setup"
+fi
