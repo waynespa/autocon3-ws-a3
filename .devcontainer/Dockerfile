@@ -31,6 +31,9 @@ RUN bash -c "$(curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.25.0/kind-linux-am
 # install containerlab
 RUN bash -c "$(curl -sL https://get.containerlab.dev)"
 
+# add vscode user to clab_admins group for containerlab
+RUN usermod -aG clab_admins vscode
+
 # install gNMIc 
 RUN bash -c "$(curl -sL https://get-gnmic.openconfig.net)" 
 
