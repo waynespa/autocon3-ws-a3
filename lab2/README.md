@@ -31,6 +31,11 @@ This part of the lab focuses on simulating **realistic network alerts** using Ka
 sudo docker build -t kafka-alarm-producer . -f Dockerfile.kafka-alarm-producer
 ```
 
+#### Alert Prometheus Exporter
+```bash
+sudo docker build -t kafka-alert-exporter  . -f Dockerfile.kafka-alert-exporter
+```
+
 ---
 
 ### **2. Start the Kafka + Exporter Stack**
