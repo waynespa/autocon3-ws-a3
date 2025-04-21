@@ -28,12 +28,12 @@ This part of the lab focuses on simulating **realistic network alerts** using Ka
 
 #### Kafka Alarm Producer
 ```bash
-sudo docker build -t kafka-alarm-producer . -f Dockerfile.kafka-alarm-producer
+docker build -t kafka-alarm-producer . -f Dockerfile.kafka-alarm-producer
 ```
 
 #### Alert Prometheus Exporter
 ```bash
-sudo docker build -t kafka-alert-exporter  . -f Dockerfile.kafka-alert-exporter
+docker build -t kafka-alert-exporter  . -f Dockerfile.kafka-alert-exporter
 ```
 
 ---
@@ -42,49 +42,35 @@ sudo docker build -t kafka-alert-exporter  . -f Dockerfile.kafka-alert-exporter
 
 Start the infrastructure using Docker Compose:
 ```bash
-sudo docker compose up -d
+docker compose up -d
 ```
 
 This will launch:
 - Zookeeper
 - Kafka broker
-- Kafka Alarm Producer
+- Kafka Alarm Producer (NSP Kafka Message Simulator: Not in the scope of this lab)
 - Kafka Alert Exporter (Prometheus endpoint)
-- Prometheus
-- Alertmanager
-
----
-
-### **3. Verify Kafka is Running**
-
-You can check Kafka connectivity using:
-```bash
-python3 kafka-check.py --bootstrap-servers kafka:9092
-```
-
----
-
-## **Simulating Alerts**
-
-### **4. Kafka Alarm Producer**
-
-The `kafka-alarm-producer.py` dynamically generates alert messages using JSON templates and sends them to Kafka topics:
-- `rt-anomalies` (baseline deviations)
-- `nsp-act-action-event` (threshold violations)
-
-To restart or observe the producer:
-```bash
-sudo docker kill --signal=HUP kafka-alarm-producer
-sudo docker exec -ti kafka-alarm-producer cat kafka-alarm-producer.log
-```
+- Grafana (including Dashboard and Datasourcer settings)
+- Prometheus (includig Target settings)
+- Alertmanager (includig Alarm Settings)
 
 ---
 
 ### **5. Prometheus Exporter**
 
-The `kafka-alert-exporter.py` consumes messages and translates them into Prometheus metrics.
+You can check Kafka connectivity using:
+```bash
+docker exec -ti kafka-alert-exporter python3 kafka-check.py --bootstrap-servers kafka:9092
+```
 
-- Accessible at: [http://localhost:8001/metrics](http://localhost:8001/metrics)
+And see actual messages via:
+```bash
+docker exec -ti kafka-alert-exporter python3 kafka-msgs.py --bootstrap-servers kafka:9092
+``` 
+
+kafka-alert-exporter instance is running `kafka-alert-exporter.py` and consumes messages and translates them into Prometheus metrics.
+
+- Accessible at port 8001 (use port mapping in VSCode for access)
 - Defined in `alarms.yml`
 
 Sample metric definition:
@@ -110,37 +96,15 @@ sudo docker exec -ti kafka-alert-exporter tail -f /app/kafka-alert-exporter.log
 
 ### **6. View Prometheus**
 
-Access Prometheus UI at:  
-👉 `http://localhost:9095`
+Access Prometheus UI at port 9095 using VSCode Port mapping link
 
----
+### **7. Grafana**
 
-### **7. Run Kafka Consumer (Optional Debug Tool)**
+Check grafana Dashboard at port 3000 (admin/secret)
 
-```bash
-python3 kafka-msgs.py --bootstrap-servers kafka:9092
-```
+### **8. Alert Manager**
 
-This prints Kafka messages in real-time from the defined topics.
-
----
-
-## **Manual Message Testing**
-
-For manual testing:
-```bash
-python3 kafka-test-producer.py --bootstrap-servers kafka:9092 --message "This is a test message"
-```
-
----
-
-## **Customization**
-
-- Modify templates in `kafka-alarm-sim-templates/`
-- Adjust timing and categories in `kafka-alarm-producer-config.yml`
-- Update alert processing logic or metrics in `alarms.yml`
-
----
+Check Alert manager at port 9093. Use port mapping in VSCode to access the link.
 
 ## **Cleaning Up**
 
@@ -153,13 +117,3 @@ Or kill individual components:
 ```bash
 sudo docker kill kafka-alarm-producer kafka-alert-exporter prometheus alertmanager
 ```
-
----
-
-### **Summary**
-
-- **Kafka producers** dynamically simulate telemetry and alarm events.
-- **Kafka exporter** translates alerts into Prometheus metrics.
-- **Prometheus & Alertmanager** provide visualization and alerting.
-- Easy to adapt for different message formats or new data sources.
-

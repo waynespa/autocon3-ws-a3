@@ -43,8 +43,9 @@ services:
       - ./alarms.yml:/app/alarms.yml
     restart: unless-stopped
 
-  kafak-alarm-grafana:
+  kafka-alarm-grafana:
     image: grafana/grafana:latest
+    container_name: kafka-alert-grafana
     volumes:
       - ./grafana/datasources:/etc/grafana/provisioning/datasources
       - ./grafana/dashboards:/etc/grafana/provisioning/dashboards

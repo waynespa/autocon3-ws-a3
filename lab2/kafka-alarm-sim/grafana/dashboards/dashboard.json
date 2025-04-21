@@ -148,7 +148,7 @@
         "pluginVersion": "10.2.0",
         "targets": [
           {
-            "expr": "sum(increase(anomaly_detected_count_total[1h])",
+            "expr": "sum(increase(anomaly_detected_count_total[1h]))",
             "refId": "A"
           }
         ],
