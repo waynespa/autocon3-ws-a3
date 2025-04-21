@@ -43,6 +43,21 @@ services:
       - ./alarms.yml:/app/alarms.yml
     restart: unless-stopped
 
+  kafak-alarm-grafana:
+    image: grafana/grafana:latest
+    volumes:
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=secret  # Change this to your preferred admin password
+    depends_on:
+      - prometheus
+    networks:
+      - kafka-backend       
+    ports:
+      - "3000:3000"
+    restart: unless-stopped  
+
   kafka-alarm-producer:
     image: kafka-alarm-producer
     container_name: kafka-alarm-producer
