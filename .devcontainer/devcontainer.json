@@ -3,6 +3,7 @@
     "build": {
         "dockerfile": "./Dockerfile",
         "context": "..",
+        "noCache" : true,
         "args": {
             "CLAB_VERSION": "${localEnv:CLAB_VERSION}"
         }
