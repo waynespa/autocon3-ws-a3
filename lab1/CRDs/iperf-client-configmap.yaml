@@ -45,16 +45,28 @@ data:
         end_port = spec['endPort']
         image = spec['image']
 
+        # Get all existing pods with the app label
+        existing_pods = core_api.list_namespaced_pod(namespace=namespace, label_selector=f"app={name}")
+        existing_pod_names = [pod.metadata.name for pod in existing_pods.items]
+
+        # Delete pods beyond the current end_port
+        for pod_name in existing_pod_names:
+            if pod_name.startswith(f"{name}-"):
+                try:
+                    port = int(pod_name.split(f"{name}-")[-1])
+                    if port < init_port or port > end_port:
+                        core_api.delete_namespaced_pod(name=pod_name, namespace=namespace)
+                        print(f"Deleted obsolete pod {pod_name}")
+                except ValueError:
+                    print(f"Could not parse port from pod name: {pod_name}")
+
+        # Create or skip pods in the desired range
         for port in range(init_port, end_port + 1):
             pod_name = f"{name}-{port}"
-
-            # Check if the pod exists
-            existing_pods = core_api.list_namespaced_pod(namespace=namespace, label_selector=f"app={name}")
-            if any(pod.metadata.name == pod_name for pod in existing_pods.items):
+            if pod_name in existing_pod_names:
                 print(f"Pod {pod_name} already exists, skipping creation")
                 continue
 
-            # Create the pod with a loop to keep it running
             pod = client.V1Pod(
                 metadata=client.V1ObjectMeta(name=pod_name, labels={"app": name}),
                 spec=client.V1PodSpec(containers=[
@@ -79,6 +91,7 @@ data:
                 print(f"Created pod {pod_name}")
             except client.exceptions.ApiException as e:
                 print(f"Failed to create pod {pod_name}: {e}")
+
 
 
 

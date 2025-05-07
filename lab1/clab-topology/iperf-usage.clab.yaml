@@ -9,10 +9,11 @@ topology:
   kinds:
     nokia_srlinux:
       type: ixrd2l
-      image: ghcr.io/nokia/srlinux:24.7.2  
+      image: ghcr.io/nokia/srlinux:24.10
   nodes:
     k8s01:
       kind: k8s-kind
+      image: kindest/node:v1.31.2      
       labels:
         graph-posX: "945"
         graph-posY: "395"
@@ -21,13 +22,13 @@ topology:
         graph-groupLabelPos: bottom-center
     k8s02:
       kind: k8s-kind
+      image: kindest/node:v1.31.2       
       labels:
         graph-posX: "1115"
         graph-posY: "395"
         graph-group: k8s02
         graph-level: "1"
         graph-groupLabelPos: bottom-center
-
     k8s01-control-plane:
       kind: ext-container
       exec:
