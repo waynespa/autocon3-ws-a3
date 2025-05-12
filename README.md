@@ -16,7 +16,7 @@ Install the following extensions:
 
 # Workshop Overview
 
-**Proctor(s):** Mau Rojas, Drew Elliott, Emre Cinar - Nokia
+**Proctor(s):** Mau Rojas, Emre Cinar and Deepinder Kalra - Nokia
 **Level:** Intermediate (some knowledge needed)
 **Description:** In modern network automation, the smartest approach is not writing everything from scratch but rather leveraging open-source tools like Prometheus, Containerlab, Kind, and gNMIc; minimizing effort while maximizing efficiency through declarative solutions and event-driven automation. 
 **Agenda (High level):**
