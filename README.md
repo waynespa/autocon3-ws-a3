@@ -41,3 +41,4 @@ This hands-on workshop will guide you through the entire development lifecycleâ€
 
 
 This [**FAQ**](https://github.com/cloud-native-everything/autocon3-ws-a3/blob/main/WS-FAQ.md) will help you get ready for the hands-on labs using either **GitHub Codespaces** or **local VS Code and Docker**. It covers tool installation, environment setup, and common scenarios for both **Mac** and **Windows** users.
+
