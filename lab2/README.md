@@ -1,5 +1,7 @@
 # **Lab Guide: Data Transformation & Automation**
 
+---
+
 Integrating Kafka for real-time network event streaming and transforming data into insightful visualizations and alerts with Grafana and Prometheus. We'll be using Kafka events related to telemetry and alarms from anomaly events coming from advanced analytics from Nokia Network PLatform Services as an example.  
 At the end of this lab, you should be able to transform data from any sort of source or subscription into useful information to gain better insight into your network state.
 
